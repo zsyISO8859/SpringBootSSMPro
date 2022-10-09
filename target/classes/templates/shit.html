@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--6.  局部变量
+
+-->
+<div th:with="vars=${heros[0]}">
+  <p th:text="${vars.username}"></p>
+</div>
+
+
+<!-- 7.  判断
+if 如果是进入
+unless 如果否进入
+switch 选择
+-->
+<p th:if="${true}">aa</p>
+<p th:unless="${true}">bb</p>
+<p th:unless="${false}">bb</p>
+<div th:switch="${name}">
+  <p th:case="'namevalue'">itlike</p>
+</div>
+<hr>
+
+<!--8. 迭代2种写法
+stat里面有很多预置的内容-->
+<tr th:each="herosItem:${heros}">
+  <td th:text="${herosItem.username}"></td>
+</tr>
+<hr>
+<tr th:each="herosItem,stat:${heros}">
+  <td th:text="${herosItem.username}"></td>
+  <td th:text="${stat.size}"></td>
+  <td th:text="${stat.first}"></td>
+</tr>
+<hr>
+
+<!--9.  内置对象-->
+<p th:text="${#strings.toUpperCase(name)}"></p>
+
+<!--10.  引入
+insert   整个插入 不替换
+include  只有内容插入 不替换
+replace  整体替换
+-->
+<div th:insert="~{hello::header}"></div>
+<div th:include="~{hello::#footer}"></div>
+<div th:replace="~{hello::body1}"></div>
+
+<script th:inline="javascript">
+    let username = /*[[${name}]]*/ 'hhhh'
+    console.log(username);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--1. 三种取值方法
+${}:变量表达式
+*{} ：选择变量表达式
+#{...} : Message 表达式 用于国际化
+-->
+<h1 th:text="${name}"></h1>
+<h1 th:text="*{name}"></h1>
+<h1 th:text="${hero.username}"></h1>
+<h1 th:text="*{hero.phone}"></h1>
+
+<div th:object="${hero}">
+    <p th:text="*{username}"></p>
+    <p th:text="*{phone}"></p>
+    <p th:text="*{id}"></p>
+</div>
+<hr>
+
+<!-- 2. 三种服务器跳转
+后2种相差不大
+-->
+<a th:href="@{https://www.itlike.com}">绝对网址</a>
+<br>
+<a th:href="@{/testCommonMapper}">上下文相关URL----执行一个action</a>
+<br>
+<a th:href="@{~/testCommonMapper}">与服务器相关URL----执行一个action</a>
+<br>
+<a th:href="@{/getparams(id=1,acion='gg')}">测试thymeleaf通过url传参数</a>
+
+<hr>
+<!-- 3.  字面值
+-->
+<p th:text="'asd'+1"></p>
+<p th:text="1+2"></p>
+<p th:text="true"></p>
+<p th:text="false"></p>
+<p th:text="'asd'+${name}"></p>
+<p th:text="12+${name}"></p>
+<p th:text="|欢迎您:${hero.username}|"></p>
+<hr>
+
+<!--4.  运算符：
+gt lt ge le   >  <  >=  <=
+-->
+<p th:text="1 gt 2"></p>
+<p th:text="1 le 2"></p>
+<p th:text="1 / 3"></p>
+<p th:text="18 % 5"></p>
+<!--三元表达式-->
+<p th:text="18 % 5==3?'男':'女'"></p>
+
+<!--简化的三元表达式  ： 字段不存在就返回后面的内容 否则返回自己-->
+<p th:text="${asd}?:'不存在'"></p>
+<p th:text="${name}?:'不存在'"></p>
+
+
+<!--5.  内联写法
+[[${}]] 原样输出
+[(${})] 解析输出
+-->
+<h1>[[${nametest}]]</h1>
+<h1>[(${nametest})]</h1>
+
+<nav th:fragment="header">头部</nav>
+<nav th:fragment="body1">中部</nav>
+<footer id="footer">尾部</footer>
+</body>
+</html>

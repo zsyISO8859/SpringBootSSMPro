@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+</head>
+
+<body>
+<h1>index</h1>
+
+
+<div id="app">
+    <div v-text="name"></div>
+    <input type="text" v-model="name">
+    <button @click="getDatas">requestData</button>
+    <hr>
+    <div v-for="(value,key,index) in obj">
+        <div v-text="value"></div>
+        <div v-text="key"></div>
+        <div v-text="index"></div>
+    </div>
+    <hr>
+    <br>
+    <table width="800px">
+        <tr>
+            <td>
+                <v-select :placeholder="placeholder"
+                          multiple
+                          :options="brandsOptions"
+                          label="username"
+                          @input="selected_brand"
+                          :value.sync="sel_brand_obj">
+                </v-select>
+            </td>
+        </tr>
+    </table>
+
+    <hr>
+    <div>{{selectBrands}}</div>
+
+    <hr>
+    <table width="800px">
+        <tr>
+            <td>
+                <select class="form-control" v-model="catSelect" @change="getCatSelect">
+                    <option :value="-1">请选择分类</option>
+                    <option :value="category.id" v-for="category in brandsOptions">
+                        {{category.username}}
+                    </option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    {{catSelect}}
+
+    <p @click="getType">getType</p>
+
+    {{getTypeData}}
+
+    <p @click="getHero">getHero</p>
+    {{getUserData}}
+</div>
+
+</body>
+
+<script type="text/javascript" src="js/vue/vue-selected.js"></script>
+<script type="text/javascript" src="js/vue/axios-0.18.0.js"></script>
+<script type="text/javascript" src="js/vue/vuejs-2.5.16.js"></script>
+<script type="text/javascript" src="js/vue/vue-selected.js"></script>
+<script type="text/javascript">
+
+    Vue.component('v-select', VueSelect.VueSelect);
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            name: 'asd',
+            age: 20,
+            list: [],
+            obj: {
+                id: '',
+                username: '',
+                profession: '',
+                phone: '',
+                email: ''
+            },
+            brandsOptions: [],
+            placeholder: '可以进行多选',
+            selectBrands: [],
+            sel_brand_obj: [],
+            catSelect: -1,
+            getTypeData:{},
+            getUserData:{}
+        },
+        methods: {
+            getDatas: function () {
+                var _this = this;
+                axios.get("/getData").then(function (response) {
+                    _this.obj = response.data;
+                }).catch(function (reason) {
+                    console.log(reason)
+                })
+            },
+            selected_brand: function (values) {
+                this.selectBrands = values.map(function (obj) {
+                    return obj.id
+                });
+                console.log(values)
+            },
+            getDataList: function () {
+                var _this = this;
+                axios.post("/getDataList").then(function (response) {
+                    console.log(response)
+                    _this.brandsOptions = response.data;
+                }).catch(function (reason) {
+                    console.log(reason)
+                })
+            },
+            getCatSelect: function () {
+
+            },
+            getType:function () {
+                var _this = this;
+                axios.post("/type/getType?id=1").then(function (response) {
+                    console.log(response);
+                    _this.getTypeData = response.data;
+                });
+                axios.post("/type/insertTypeById").then(function (response) {
+                    console.log(response);
+                })
+            },
+            getHero:function () {
+                var _this = this;
+                axios.post("/user?id=1").then(function (response) {
+                    console.log(response);
+                    _this.getUserData = response.data;
+                });
+            }
+        },
+        created: function () {
+            this.getDatas()
+            this.getDataList();
+        },
+        watch: {//监听值改变
+            catSelect(newValue, oldValue) {
+                alert(newValue);
+                alert(oldValue);
+
+                axios.post("/temp/findOne.do?id=" + newValue)
+                    .then(function (response) {
+                        console.log(response.data);
+                        //字符串转list
+                        _this.brandList = JSON.parse(response.data.brandIds);
+                        console.log(_this.brandList);
+                    }).catch(function (reason) {
+                    console.log(reason);
+                });
+            }
+        }
+    })
+</script>
+</html>

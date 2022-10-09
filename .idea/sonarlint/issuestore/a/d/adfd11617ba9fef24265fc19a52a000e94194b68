@@ -1,0 +1,15 @@
+
+\
+java:S1192%"FDefine a constant instead of duplicating this literal "hello" 6 times.(¹Œìí
+{
+java:S1488p"`Immediately return this expression instead of assigning it to the temporary variable "heroById".(à¿óüÿÿÿÿ
+M	java:S106."9Replace this use of System.out or System.err by a logger.(šïF
+S	java:S1067"9Replace this use of System.out or System.err by a logger.(¬Àì÷şÿÿÿÿ
+M	java:S106E"9Replace this use of System.out or System.err by a logger.(šïF
+M
+java:S1135X"2Complete the task associated to this TODO comment.(£ìçıûÿÿÿÿ
+f
+java:S1128	"PRemove this unused import 'org.springframework.web.bind.annotation.CrossOrigin'.(º´Ñ†
+l
+java:S1128
+"QRemove this unused import 'org.springframework.web.bind.annotation.PathVariable'.(¹ûñÅşÿÿÿÿ
